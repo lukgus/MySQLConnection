@@ -1,6 +1,6 @@
 .vs/*
-Box2DExample/[Rr]elease/*
-Box2DExample/[Dd]ebug/*
+MySQLExample/[Rr]elease/*
+MySQLExample/[Dd]ebug/*
 [Dd]ebug/*.pdb
 [Dd]ebug/*.ilk
 [Dd]ebug/*.exe
