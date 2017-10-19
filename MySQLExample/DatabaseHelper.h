@@ -17,7 +17,9 @@ public:
 
 	bool ConnectToDatabase(const std::string &server, const std::string &username, const std::string &password, const std::string &schema);
 
-	int ExecuteStatement(const std::string &message);
+	bool Execute(const std::string &message);
+	sql::ResultSet* ExecuteQuery(const std::string &message);
+	int ExecuteUpdate(const std::string &message);
 
 private:
 	sql::Driver* driver;

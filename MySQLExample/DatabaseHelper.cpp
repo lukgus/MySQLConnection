@@ -38,12 +38,54 @@ bool DatabaseHelper::ConnectToDatabase(const std::string &server,
 	return true;
 }
 
-int DatabaseHelper::ExecuteStatement(const std::string &message)
+bool DatabaseHelper::Execute(const std::string &sql)
 {
 	try
 	{
-		pstmt = con->prepareStatement(message);
-		pstmt->executeUpdate();
+		pstmt = con->prepareStatement(sql);
+		return pstmt->execute();
+	}
+	catch (sql::SQLException &exception)
+	{
+		cout << "# ERR: SQLException in " << __FILE__;
+		cout << "(" << __FUNCTION__ << ") on line " << __LINE__ << endl;
+		cout << "# ERR: " << exception.what();
+		cout << " (MySQL error code: " << exception.getErrorCode();
+		cout << ", SQLState: " << exception.getSQLState() << " )" << endl;
+		return false;
+	}
+}
+
+sql::ResultSet* DatabaseHelper::ExecuteQuery(const std::string &sql)
+{
+	try
+	{
+		pstmt = con->prepareStatement(sql);
+		return pstmt->executeQuery();
+	}
+	catch (sql::SQLException &exception)
+	{
+		cout << "# ERR: SQLException in " << __FILE__;
+		cout << "(" << __FUNCTION__ << ") on line " << __LINE__ << endl;
+		cout << "# ERR: " << exception.what();
+		cout << " (MySQL error code: " << exception.getErrorCode();
+		cout << ", SQLState: " << exception.getSQLState() << " )" << endl;
+		return false;
+	}
+}
+
+/**
+ * ExecuteUpdate
+ * Executes the sql command from the string
+ * @param message - the sql command
+ * @return int - the number of rows affected
+ */
+int DatabaseHelper::ExecuteUpdate(const std::string &sql)
+{
+	try
+	{
+		pstmt = con->prepareStatement(sql);
+		return pstmt->executeUpdate();
 	}
 	catch (sql::SQLException &exception)
 	{
